@@ -47,7 +47,7 @@ class TFRecordDataset:
         num_threads     = 2):       # Number of concurrent threads.
 
         #self.tfrecord_dir       = tfrecord_dir
-        self.tfrecord_dir       = '/home/cc/Data/Finger'
+        self.tfrecord_dir       = tfrecord_dir
         self.resolution         = None
         self.resolution_log2    = None
         self.shape              = []        # [channel, height, width]
