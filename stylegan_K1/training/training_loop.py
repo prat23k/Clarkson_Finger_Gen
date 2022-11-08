@@ -121,7 +121,7 @@ def training_loop(
     sched_args              = {},       # Options for train.TrainingSchedule.
     grid_args               = {},       # Options for train.setup_snapshot_image_grid().
     metric_arg_list         = [],       # Options for MetricGroup.
-    tf_config               = {},       # Options for tflib.init_tf().
+    tf_config               = {'gpu_options.allow_growth': True},       # Options for tflib.init_tf().
     G_smoothing_kimg        = 10.0,     # Half-life of the running average of generator weights.
     D_repeats               = 1,        # How many times the discriminator is trained per G iteration.
     minibatch_repeats       = 4,        # Number of minibatches to run before adjusting training parameters.
