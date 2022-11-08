@@ -10,8 +10,8 @@
 #----------------------------------------------------------------------------
 # Paths.
 
-result_dir = '/content/drive/MyDrive/CFG/results'
-data_dir = 'datasets'
+result_dir = '/workspace/stylegan_K1/results'
+data_dir = '/workspace/stylegan_K1/datasets'
 cache_dir = 'cache'
 run_dir_ignore = ['results', 'datasets', 'cache']
 

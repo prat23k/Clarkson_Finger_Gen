@@ -1,0 +1,9 @@
+*.pkl
+*.png
+
+__pycache__/
+ *.pyc
+
+*/results
+*/datasets
+*/tfrecords
