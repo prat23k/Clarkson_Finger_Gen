@@ -10,7 +10,9 @@
 #----------------------------------------------------------------------------
 # Paths.
 
+synthetic_data_size = 5
 result_dir = '/workspace/stylegan_K1/results'
+generation_dir = '/workspace/stylegan_K1/synthetic_data'
 data_dir = '/workspace/stylegan_K1/datasets'
 cache_dir = 'cache'
 run_dir_ignore = ['results', 'datasets', 'cache']

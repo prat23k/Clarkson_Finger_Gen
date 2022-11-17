@@ -14,6 +14,7 @@ import PIL.Image
 import dnnlib
 import dnnlib.tflib as tflib
 import config
+import time
 
 def main():
     # Initialize TensorFlow.
@@ -23,7 +24,10 @@ def main():
     # Load pre-trained network.
     # url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
 
-    f = open('../CFG.pkl', 'rb')
+    # create folder if not exist
+    os.makedirs(config.generation_dir, exist_ok=True)
+
+    f = open('./results/00000-sgan-cfg_dataset-1gpu/network-snapshot-003285.pkl', 'rb')
     _G, _D, Gs = pickle.load(f)
 
     # _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
@@ -33,19 +37,25 @@ def main():
     # Print network details.
     Gs.print_layers()
 
-    # Pick latent vector.
-    rnd = np.random.RandomState(5)
-    latents = rnd.randn(1, Gs.input_shape[1])
+    print('synthetic data size : ', config.synthetic_data_size)
 
-    # Generate image.
-    fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-    images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
-    import time
-    time_stamp = time.strftime("%Y%m%d-%H%M%S")
-    # Save image.
-    os.makedirs(config.result_dir, exist_ok=True)
-    png_filename = os.path.join(config.result_dir, 'example_'+time_stamp+'.png')
-    PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
+    for i in range(config.synthetic_data_size):
+        print('inside loop with i value : ', i)
+
+        # Pick latent vector.
+        rnd = np.random.RandomState(5)
+        latents = rnd.randn(1, Gs.input_shape[1])
+
+        # Generate image.
+        fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
+
+        images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
+
+        # Save image.
+        time_stamp = time.strftime("%Y%m%d-%H%M%S")
+        png_filename = os.path.join(config.generation_dir, 'example_' +
+                                    str(time.time()*1000) + '_' + time_stamp + '.png')
+        PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
 
 if __name__ == "__main__":
     main()
