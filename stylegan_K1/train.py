@@ -31,7 +31,8 @@ if 1:
     grid          = EasyDict(size='4k', layout='random')                                   # Options for setup_snapshot_image_grid().
     metrics       = []                                                   # Options for MetricGroup.
     submit_config = dnnlib.SubmitConfig()                                                  # Options for dnnlib.submit_run().
-    tf_config     = {'rnd.np_random_seed': 1000}                                           # Options for tflib.init_tf().
+    tf_config     = {'rnd.np_random_seed': 1000}                # Options for tflib.init_tf().
+    downgrade_D_by = 1e-3                       # downgrade lr of D
 
     # Dataset.
     desc += '-cfg_dataset';     dataset = EasyDict(tfrecord_dir='/workspace/stylegan_K1/tfrecords'); train.mirror_augment = True
@@ -54,6 +55,7 @@ if 1:
     sched.lod_initial_resolution = 8
     sched.G_lrate_dict = {128: 0.0015, 256: 0.002, 512: 0.003, 1024: 0.003}
     sched.D_lrate_dict = EasyDict(sched.G_lrate_dict)
+    sched.D_lrate_dict.update((key, value * downgrade_D_by) for key, value in sched.D_lrate_dict.items())
 
     # WGAN-GP loss for CelebA-HQ.
     #desc += '-wgangp'; G_loss = EasyDict(func_name='training.loss.G_wgan'); D_loss = EasyDict(func_name='training.loss.D_wgan_gp'); sched.G_lrate_dict = {k: min(v, 0.002) for k, v in sched.G_lrate_dict.items()}; sched.D_lrate_dict = EasyDict(sched.G_lrate_dict)
