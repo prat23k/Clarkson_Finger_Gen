@@ -8,3 +8,4 @@ __pycache__/
 */datasets
 */tfrecords
 */synthetic_data
+*/enhanced_images

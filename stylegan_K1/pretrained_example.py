@@ -27,7 +27,7 @@ def main():
     # create folder if not exist
     os.makedirs(config.generation_dir, exist_ok=True)
 
-    f = open('./results/00000-sgan-cfg_dataset-1gpu/network-snapshot-003285.pkl', 'rb')
+    f = open(config.model_dir, 'rb')
     _G, _D, Gs = pickle.load(f)
 
     # _G = Instantaneous snapshot of the generator. Mainly useful for resuming a previous training run.
@@ -50,12 +50,14 @@ def main():
         fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
 
         images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
-
         # Save image.
         time_stamp = time.strftime("%Y%m%d-%H%M%S")
         png_filename = os.path.join(config.generation_dir, 'example_' +
                                     str(time.time()*1000) + '_' + time_stamp + '.png')
+
         PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
+        # gray_image = rgb_image.convert('L')
+        # gray_image
 
 if __name__ == "__main__":
     main()

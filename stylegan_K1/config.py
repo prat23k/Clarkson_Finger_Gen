@@ -11,7 +11,8 @@
 # Paths.
 
 synthetic_data_size = 5
-resume_dir = '/workspace/network-snapshot-003285.pkl'
+model_dir = '/workspace/CFG.pkl'
+resume_dir = '/workspace/CFG.pkl'
 result_dir = '/workspace/stylegan_K1/results'
 generation_dir = '/workspace/stylegan_K1/synthetic_data'
 data_dir = '/workspace/stylegan_K1/datasets'
